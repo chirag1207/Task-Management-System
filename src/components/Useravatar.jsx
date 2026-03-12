@@ -1,19 +1,13 @@
 import React from 'react'
-import { Menu, MenuItem, MenuButton, Transition } from "@headlessui/react";
+import { Menu, MenuItems, MenuItem, MenuButton, Transition } from "@headlessui/react";
 import { Fragment, useState } from 'react';
 import { FaUser, FaUserLock } from 'react-icons/fa';
 import { IoLogOutOutline } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
-// import { useLogoutUserMutation } from '../redux/api/authApi';
+// import { useLogoutUserMutation } from '../redux/slices/authSlice';
 // import { setLogout } from '../redux/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
-// import { getIntials } from '../utils/getInitials';
-import { getIntials } from '../utils';
-
-
-
-
-
+import { getInitials } from '../utils/index';
 
 
 
@@ -24,7 +18,7 @@ const Useravatar = () => {
     const { user } = useSelector((state) => state.auth);
     // const [logoutUser] = useLogoutUserMutation();
     const dispatch = useDispatch();
-    const naigate = useNavigate();
+    const navigate = useNavigate();
     const logOutHandler = async () => {
         console.log("logout");
     };
@@ -35,7 +29,7 @@ const Useravatar = () => {
                     <div>
                         <MenuButton className='w-10 h-10 2xl:w-12 2xl:h-12 items-center justify-center rounded-full bg-blue-600'>
                             <span className='text-white font-semibold'>
-                                {getIntials(user?.name)}
+                                {getInitials(user?.name)}
                             </span>
                         </MenuButton>
                     </div>
@@ -49,7 +43,7 @@ const Useravatar = () => {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                     >
-                        <MenuItem className="absolute right-0 mt-2 w-56 origin-top-right divide-gray-100 rounded-md bg-white shadow-2xl ring-1 ring-black/5 focus:outline-none">
+                        <MenuItems className="absolute right-0 mt-2 w-56 origin-top-right divide-gray-100 rounded-md bg-white shadow-2xl ring-1 ring-black/5 focus:outline-none">
                             <div className="p-4">
                                 <MenuItem>
                                     {({ active }) => (
@@ -80,7 +74,7 @@ const Useravatar = () => {
                                 </MenuItem>
 
                             </div>
-                        </MenuItem>
+                        </MenuItems>
                     </Transition>
                 </Menu>
             </div>

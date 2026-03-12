@@ -1,8 +1,84 @@
 import React from 'react'
-
+import { MdAdminPanelSettings, MdKeyboardArrowDown, MdKeyboardArrowUp, MdKeyboardDoubleArrowUp } from "react-icons/md"
+import { LuClipboardPen } from "react-icons/lu";import { FaNewspaper, FaUsers } from 'react-icons/fa'
+import { FaArrowsToDot } from 'react-icons/fa6'
+import moment from 'moment'
+import { Chart, Loading, UserInfo } from "../components";
+import { useGetDasboardStatsQuery } from "../redux/slices/api/taskApiSlice";
+import { BGS, PRIOTITYSTYELS, TASK_TYPE, getInitials } from "../utils";
+import { useSelector } from "react-redux";
 const Dashboard = () => {
+   const { data, isLoading, error } = useGetDasboardStatsQuery();
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
+
+  const totals = data?.tasks || [];
+
+  if (isLoading)
+    return (
+      <div className='py-10'>
+        <Loading />
+      </div>
+    );
+
+  const stats = [
+    {
+      _id: "1",
+      label: "TOTAL TASK",
+      total: data?.totalTasks || 0,
+      icon: <FaNewspaper />,
+      bg: "bg-[#1d4ed8]",
+    },
+    {
+      _id: "2",
+      label: "COMPLTED TASK",
+      total: totals["completed"] || 0,
+      icon: <MdAdminPanelSettings />,
+      bg: "bg-[#0f766e]",
+    },
+    {
+      _id: "3",
+      label: "TASK IN PROGRESS ",
+      total: totals["in progress"] || 0,
+      icon: <LuClipboardPen  />,
+      bg: "bg-[#f59e0b]",
+    },
+    {
+      _id: "4",
+      label: "TODOS",
+      total: totals["todo"],
+      icon: <FaArrowsToDot />,
+      bg: "bg-[#be185d]" || 0,
+    },
+  ];
+
+  const Card = ({ label, count, bg, icon }) => {
+    return (
+    <div className="w-full h-32 bg-white p-5 shadow-md rounded-md flex items-center justify-between">
+      <div className='h-fulll flex flex-1 flex-col justify-between'>
+              <p className="text-base text-gray-600">{label}</p>
+      </div>
+    </div>
+  );
+  };
+
+
+
+
   return (
-    <div>Dashboard</div>
+    <div className="h-fully py-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-5">|
+        {
+          stats.map(({ icon, bg, label, total }, index) => (
+            <Card key={index} icon={icon} bg={bg} label={label} total={total} />
+          ))
+        }
+      </div>
+
+    </div>
   )
 }
 

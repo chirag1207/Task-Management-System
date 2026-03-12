@@ -3,7 +3,7 @@ const initialState ={
     user:localStorage.getItem('userInfo')
     ?JSON.parse(localStorage.getItem('userInfo'))
     :null,
-    isSidebaropen:false,
+    isSidebarOpen:false,
 };
 
 const authSlice =createSlice({
@@ -19,7 +19,7 @@ const authSlice =createSlice({
             localStorage.removeItem('userInfo');
         },
         setOpenSideBar:(state,action)=>{
-            state.isSidebaropen = action.payload;
+            state.isSidebarOpen = action.payload;
         },
     },
 });
